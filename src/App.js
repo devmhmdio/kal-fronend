@@ -128,16 +128,16 @@ function App() {
       {responseData && (
         <div>
         <h2>Response Data:</h2>
-            {responseData.map((res) => {
-              return (<div>
+            {responseData.map((res) => (
+              <div>
                 <p>
                   <textarea defaultValue={res.subject}>{res.subject}</textarea>
                 </p>
                 <p>
                   <textarea defaultValue={res.body}>{res.body}</textarea>
                 </p>
-              </div>)
-            })}
+              </div>
+            ))}
           </div>
         )}
       </div>
