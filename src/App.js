@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './App.css';
+import { Form, Button} from 'react-bootstrap';
 
 function App() {
   const [formData, setFormData] = useState({
@@ -72,29 +74,39 @@ function App() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Business Keyword:</label>
-        <input
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+        <div>
+          <div><Form.Label htmlFor="name">Business Keyword:</Form.Label></div>
+        <div><Form.Control
           type="text"
           id="businessKeyword"
           name="businessKeyword"
           value={formData.businessKeyword}
           onChange={handleChange}
-        />
-        <button onClick={handleChangeBusiness}>Add Business Keyword</button>
-        <label htmlFor="age">Client Keyword:</label>
-        <input
+        /> 
+        <Button variant="dark" onClick={handleChangeBusiness}>Add Business Keyword</Button>
+        </div>
+        </div></Form.Group>
+
+        <div>
+        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+        <div><Form.Label htmlFor="age">Client Keyword:</Form.Label></div>
+        <div><Form.Control
           type="text"
           id="clientKeyword"
           name="clientKeyword"
           value={formData.clientKeyword}
           onChange={handleChange}
-        />
-        <button onClick={handleChangeClient}>Add Client Keyword</button>
+        /></div><Button variant="dark" onClick={handleChangeClient}>Add Client Keyword</Button>
+        </Form.Group>
+        </div>
+
         <br />
-        <br />
-        <button type="submit">
+        <div><Button variant="dark" type="submit">
           Add Entry
-        </button>
+        </Button>
+        </div>
+        
       </form>
       <table>
         <thead>
