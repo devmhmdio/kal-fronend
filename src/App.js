@@ -1,39 +1,71 @@
 import React, { useState } from 'react';
-import createConnection from './config';
-import getData from './config';
+import axios from 'axios';
 
 function App() {
   const [formData, setFormData] = useState({
     businessKeyword: '',
-    clientKeyword: []
+    clientKeyword: [],
   });
 
   const [businessKeywords, setBusinessKeywords] = useState([]);
   const [clientKeywords, setClientKeywords] = useState([]);
-  const [gettingData, setGettingData] = useState();
+  const [responseData, setResponseData] = useState([]);
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  const handleChangeBusiness = event => {
+  const handleChangeBusiness = (event) => {
     event.preventDefault();
-    setBusinessKeywords(prevState => {
-      return [...prevState, formData.businessKeyword]
+    setBusinessKeywords((prevState) => {
+      return [...prevState, formData.businessKeyword];
     });
-    setFormData({ businessKeyword: ''});
+    setFormData({ businessKeyword: '' });
   };
 
-  const handleChangeClient = event => {
+  const handleChangeClient = (event) => {
     event.preventDefault();
-    setClientKeywords(prevState => [...prevState, formData.clientKeyword]);
+    setClientKeywords((prevState) => [...prevState, formData.clientKeyword]);
     setFormData({ clientKeyword: [] });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    createConnection(businessKeywords[0], clientKeywords);
-    setGettingData(createConnection)
+    console.log('this is business keywords', businessKeywords[0].toString());
+    console.log('this is client keywords', clientKeywords);
+    const data = JSON.stringify({
+      query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!) {
+              createConnection(input: {
+                  businessKeyword: $businessKeyword
+                  clientKeyword: $clientKeyword
+              }) {
+                  subject
+                  body
+              }
+          }`,
+      variables: {
+        businessKeyword: businessKeywords[0],
+        clientKeyword: clientKeywords,
+      },
+    });
+
+    const config = {
+      method: 'post',
+      url: 'https://starfish-app-fzf2t.ondigitalocean.app/graphql',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then((response) => {
+        console.log('line 63', response.data.data.createConnection);
+        setResponseData(response.data.data.createConnection);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     setFormData({ businessKeyword: '', clientKeyword: [] });
   };
 
@@ -60,7 +92,9 @@ function App() {
         <button onClick={handleChangeClient}>Add Client Keyword</button>
         <br />
         <br />
-        <button type="submit">Add Entry</button>
+        <button type="submit">
+          Add Entry
+        </button>
       </form>
       <table>
         <thead>
@@ -90,20 +124,25 @@ function App() {
           ))}
         </tbody>
       </table>
-      <table>
-        <thead>
-          <tr>
-            <th>Get the create connection</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{gettingData}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div>
+      {responseData && (
+        <div>
+        <h2>Response Data:</h2>
+            {responseData.map((res) => {
+              return (<div>
+                <p>
+                  <textarea defaultValue={res.subject}>{res.subject}</textarea>
+                </p>
+                <p>
+                  <textarea defaultValue={res.body}>{res.body}</textarea>
+                </p>
+              </div>)
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
-};
+}
 
 export default App;
