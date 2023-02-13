@@ -125,17 +125,24 @@ function App() {
         </tbody>
       </table>
       <div>
+      {console.log('line 128', responseData.map((res) => {
+        console.log(res)
+        return res
+      }))}
       {responseData && (
         <div>
         <h2>Response Data:</h2>
             {responseData.map((res) => (
               <div>
-                <p>
-                  <textarea defaultValue={res.subject}>{res.subject}</textarea>
+                <p>Subject:
+                  <textarea defaultValue={res.subject} rows={3} cols={100}></textarea>
                 </p>
-                <p>
-                  <textarea defaultValue={res.body}>{res.body}</textarea>
+                <p>Body:
+                  <textarea defaultValue={res.body} rows={10} cols={100}></textarea>
                 </p>
+                Enter email id: <input type={"text"}></input>
+                <button>Send Email</button>
+                <hr />
               </div>
             ))}
           </div>
