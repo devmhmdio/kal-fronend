@@ -103,7 +103,7 @@ function App() {
 
         <br />
         <div><Button variant="dark" type="submit">
-          Add Entry
+          Generate
         </Button>
         </div>
         
