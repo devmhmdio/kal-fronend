@@ -12,6 +12,8 @@ function App() {
   const [businessKeywords, setBusinessKeywords] = useState([]);
   const [clientKeywords, setClientKeywords] = useState([]);
   const [responseData, setResponseData] = useState([]);
+  const [subject, setSubject] = useState([]);
+  const [body, setBody] = useState([]);
 
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -64,6 +66,12 @@ function App() {
       .then((response) => {
         console.log('line 63', response.data.data.createConnection);
         setResponseData(response.data.data.createConnection);
+        responseData.forEach((res) => {
+          setSubject(res.subject);
+          setBody(res.body);
+        });
+        console.log('this is subject', subject)
+        console.log('this is body', body)
       })
       .catch((error) => {
         console.log(error);
@@ -77,6 +85,9 @@ function App() {
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
         <div>
           <div><Form.Label htmlFor="name">Business Keyword:</Form.Label></div>
+          {businessKeywords.map((keyword) => (
+            <span style={{paddingRight: 10 + 'px'}}>{keyword}</span>
+          ))}
         <div><Form.Control
           type="text"
           id="businessKeyword"
@@ -91,6 +102,9 @@ function App() {
         <div>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
         <div><Form.Label htmlFor="age">Client Keyword:</Form.Label></div>
+        {clientKeywords.map((keyword) => (
+          <span style={{paddingRight: 10 + 'px'}}>{keyword}</span>
+        ))}
         <div><Form.Control
           type="text"
           id="clientKeyword"
@@ -106,41 +120,8 @@ function App() {
           Generate
         </Button>
         </div>
-        
       </form>
-      <table>
-        <thead>
-          <tr>
-            <th>Business Keywords</th>
-          </tr>
-        </thead>
-        <tbody>
-          {businessKeywords.map((keyword, index) => (
-            <tr key={index}>
-              <td>{keyword}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <table>
-        <thead>
-          <tr>
-            <th>Client Keywords</th>
-          </tr>
-        </thead>
-        <tbody>
-          {clientKeywords.map((keyword, index) => (
-            <tr key={index}>
-              <td>{keyword}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
       <div>
-      {console.log('line 128', responseData.map((res) => {
-        console.log(res)
-        return res
-      }))}
       {responseData && (
         <div>
         <h2>Response Data:</h2>
@@ -152,11 +133,10 @@ function App() {
                 <p>Body:
                   <textarea defaultValue={res.body} rows={10} cols={100}></textarea>
                 </p>
-                Enter email id: <input type={"text"}></input>
-                <button>Send Email</button>
                 <hr />
               </div>
             ))}
+            <p>Response printed now you can send email. Go to <a href="/sendEmail">send email</a> page</p>
           </div>
         )}
       </div>
