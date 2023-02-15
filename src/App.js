@@ -12,8 +12,6 @@ function App() {
   const [businessKeywords, setBusinessKeywords] = useState([]);
   const [clientKeywords, setClientKeywords] = useState([]);
   const [responseData, setResponseData] = useState([]);
-  const [subject, setSubject] = useState([]);
-  const [body, setBody] = useState([]);
 
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -66,12 +64,6 @@ function App() {
       .then((response) => {
         console.log('line 63', response.data.data.createConnection);
         setResponseData(response.data.data.createConnection);
-        responseData.forEach((res) => {
-          setSubject(res.subject);
-          setBody(res.body);
-        });
-        console.log('this is subject', subject)
-        console.log('this is body', body)
       })
       .catch((error) => {
         console.log(error);
@@ -127,16 +119,17 @@ function App() {
         <h2>Response Data:</h2>
             {responseData.map((res) => (
               <div>
-                <p>Subject:
-                  <textarea defaultValue={res.subject} rows={3} cols={100}></textarea>
+                <p><span><strong>Subject:</strong></span>
+                <br />
+                {res.subject}
                 </p>
-                <p>Body:
-                  <textarea defaultValue={res.body} rows={10} cols={100}></textarea>
+                <p><span><strong>Body:</strong></span>
+                <br />
+                  {res.body}
                 </p>
                 <hr />
               </div>
             ))}
-            <p>Response printed now you can send email. Go to <a href="/sendEmail">send email</a> page</p>
           </div>
         )}
       </div>
