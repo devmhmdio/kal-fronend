@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
-import { Form, Button} from 'react-bootstrap';
+import { Form, Button, Container, Row, Col} from 'react-bootstrap';
 
 function App() {
   const [formData, setFormData] = useState({
@@ -113,7 +113,7 @@ function App() {
         </Button>
         </div>
       </form>
-      <div>
+      <div class= "response">
       {responseData && (
         <div>
         <h2>Response Data:</h2>
@@ -127,6 +127,7 @@ function App() {
                 <br />
                   {res.body}
                 </p>
+                <Button variant="dark" href="">Send Email</Button>
                 <hr />
               </div>
             ))}
