@@ -127,10 +127,10 @@ function App() {
                 <br />
                   {res.body}
                 </p>
-                <Button variant="dark" href="">Send Email</Button>
                 <hr />
               </div>
             ))}
+            <Button variant='dark'>Send Email Page</Button>
           </div>
         )}
       </div>
