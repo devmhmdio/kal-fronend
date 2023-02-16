@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../App.css';
-import { Form, Button, Container, Row, Col} from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import SendEmail from './SendEmail';
 
 function Homepage() {
     const navigate = useNavigate()

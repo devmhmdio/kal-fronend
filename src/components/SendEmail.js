@@ -5,7 +5,6 @@ import axios from 'axios';
 const SendEmail = () => {
   const [emailDatas, setEmailDatas] = useState([]);
   const d = [{ name: '', email: '' }];
-  const [formFields, setFormFields] = useState(d);
 
   useEffect(() => {
     const data = JSON.stringify({
