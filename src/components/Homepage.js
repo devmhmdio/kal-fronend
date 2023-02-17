@@ -14,6 +14,7 @@ function Homepage() {
   const [businessKeywords, setBusinessKeywords] = useState([]);
   const [clientKeywords, setClientKeywords] = useState([]);
   const [responseData, setResponseData] = useState([]);
+  const [record, setRecord] = useState(null);
 
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -73,8 +74,43 @@ function Homepage() {
     setFormData({ businessKeyword: '', clientKeyword: [] });
   };
 
+  const deletePreviousResponses = async () => {
+    const data = JSON.stringify({
+      query: `mutation {
+        deleteAllResponsesFromDB {
+                  status {
+                    code
+                    header
+                    description
+                    moreInfo
+                  }
+              }
+          }`,
+    });
+
+    const config = {
+      method: 'post',
+      url: 'https://starfish-app-fzf2t.ondigitalocean.app/graphql',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then((response) => {
+        console.log('line 63', response.data.data.deleteAllResponsesFromDB);
+        setRecord(response.data.data.deleteAllResponsesFromDB);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div>
+      <Button variant='dark' onClick={deletePreviousResponses}>Delete All Previous Responses</Button>
+      {record && <p>All Responses Deleted Successfully!</p>}
       <form onSubmit={handleSubmit}>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
         <div>

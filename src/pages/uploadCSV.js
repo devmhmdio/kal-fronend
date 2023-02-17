@@ -8,8 +8,6 @@ const UploadCSV = () => {
     let file;
     const [csvData, setCSVData] = useState(null);
     const [columnData, setColumnData] = useState(null);
-    // const [name, setName] = useState(null);
-    // const [email, setEmail] = useState(null);
     let clientKeywords = [];
     let names = [];
     let emailIds = [];
