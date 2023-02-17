@@ -12,6 +12,8 @@ const SendEmail = () => {
                 getEmails {
                     subject
                     body
+                    name
+                    emailId
                 }
               }`,
     });
@@ -53,13 +55,13 @@ const SendEmail = () => {
       }
       if (event.target[i].name === 'email') {
         email.push(event.target[i].value)
-    }
-    if (event.target[i].name === 'subject') {
-        emailSubject.push(event.target[i].value)
-    }
-    if (event.target[i].name === 'body') {
-        emailBody.push(event.target[i].value)
-    }
+      }
+      if (event.target[i].name === 'subject') {
+          emailSubject.push(event.target[i].value)
+      }
+      if (event.target[i].name === 'body') {
+          emailBody.push(event.target[i].value)
+      }
     }
     for (let j = 0;j<=name.length-1 && j<=email.length;j++) {
         o.push(formFieldsArray[j][0] = {subject: emailSubject[j], body: emailBody[j], name: name[j], email: email[j]})
@@ -149,7 +151,7 @@ const SendEmail = () => {
                     type="text"
                     id={`email-${index}`}
                     name="email"
-                    value={each.email}
+                    value={each.emailId}
                   ></input>
                 </td>
               </tr>

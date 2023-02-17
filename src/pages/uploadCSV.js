@@ -11,6 +11,8 @@ const UploadCSV = () => {
     // const [name, setName] = useState(null);
     // const [email, setEmail] = useState(null);
     let clientKeywords = [];
+    let names = [];
+    let emailIds = [];
     const [responseData, setResponseData] = useState([]);
 
   const handleFileUpload = (event) => {
@@ -26,16 +28,19 @@ const UploadCSV = () => {
       setColumnData(parsedCSV.data);
       parsedCSV.data.forEach((d) => {
         if (typeof d['Client Keywords'] == 'string') {
-          console.log('line 27',d['Client Keywords']);
           clientKeywords.push(d['Client Keywords'])
+          names.push(d['Names'])
+          emailIds.push(d['Emails'])
         }
       })
 
       const data = JSON.stringify({
-        query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!) {
+        query: `mutation($businessKeyword: String!, $clientKeyword: [String!]!, $name: [String], $emailId: [String]) {
           createConnection(input: {
               businessKeyword: $businessKeyword
               clientKeyword: $clientKeyword
+              name: $name,
+              emailId: $emailId
           }) {
               subject
               body
@@ -44,6 +49,8 @@ const UploadCSV = () => {
         variables: {
           businessKeyword: parsedCSV.data[0]['Business Keyword'],
           clientKeyword: clientKeywords,
+          name: names,
+          emailId: emailIds
         },
       });
 
@@ -65,10 +72,6 @@ const UploadCSV = () => {
         console.log(error);
       });
 
-      // parsedCSV.data.map((rowData) => {
-      //   console.log('these are names',rowData['Names']);
-      //   console.log('these are emails',rowData['Emails']);
-      // })
     };
 
     reader.onerror = () => {
